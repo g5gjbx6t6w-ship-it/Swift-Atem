@@ -528,6 +528,8 @@ extension Message.Do {
         public init(with bytes: ArraySlice<UInt8>) throws {
             mixEffectIndex = bytes[relative: 0]
             keyIndex = bytes[relative: 1]
+            // bytes[2] = reserved/ignored
+            // bytes[3] = type
         }
 
         // Costruttore per inviare il comando
@@ -536,13 +538,14 @@ extension Message.Do {
             self.keyIndex = keyIndex
         }
 
-        // Byte inviati all’ATEM
+        // Byte inviati all’ATEM (8 byte di parametri)
         public var dataBytes: [UInt8] {
             return [
                 mixEffectIndex,
                 keyIndex,
-                0x01, // type = 1 (Chroma)
-                0x00  // padding
+                0x00,       // reserved / sempre 0 nelle catture
+                0x01,       // type = 1 (Chroma)
+                0x00, 0x00, 0x00, 0x00 // padding
             ]
         }
 
@@ -565,21 +568,24 @@ extension Message.Do {
         public init(with bytes: ArraySlice<UInt8>) throws {
             mixEffectIndex = bytes[relative: 0]
             keyIndex = bytes[relative: 1]
+            // bytes[2] = reserved/ignored
+            // bytes[3] = type
         }
 
-        // Costruttore per inviare
+        // Costruttore per inviare il comando
         public init(mixEffectIndex: UInt8, keyIndex: UInt8) {
             self.mixEffectIndex = mixEffectIndex
             self.keyIndex = keyIndex
         }
 
-        // Byte inviati all’ATEM
+        // Byte inviati all’ATEM (8 byte di parametri)
         public var dataBytes: [UInt8] {
             return [
                 mixEffectIndex,
                 keyIndex,
-                0x03, // type = 3 (DVE)
-                0x00  // padding
+                0x00,       // reserved / sempre 0
+                0x03,       // type = 3 (DVE)
+                0x00, 0x00, 0x00, 0x00 // padding
             ]
         }
 
