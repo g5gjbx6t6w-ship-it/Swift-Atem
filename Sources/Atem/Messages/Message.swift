@@ -101,12 +101,16 @@ public protocol SerializableMessage: Message.Deserializable {
 	/// The part of the serialized message starting after the 4 `Message.title` bytes.
 	/// This property is used by the `Serializable.serialize()` method
 	var dataBytes: [UInt8] {get}
+	static var mask: [UInt8] { get }
 }
+
+
+
 
 extension SerializableMessage {
 	public func serialize() -> [UInt8] {
 		let data = dataBytes
-		return UInt16(data.count + 8).bytes + [0,0] + Self.prefix() + data
+		return UInt16(data.count + 8).bytes + Self.mask + Self.prefix() + data
 	}
 }
 
