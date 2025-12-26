@@ -375,7 +375,6 @@ extension Message.Do {
 				unit: UnitAngle.degrees
 			)
 		}
-
 		public init(mixEffect: UInt8, key: UInt8, rotation: Measurement<UnitAngle>) {
 			changedElements = .rotation
 			mixEffectIndex = mixEffect
@@ -403,7 +402,6 @@ extension Message.Do {
 			static let upstreamKey = 5
 			static let rotation = 24..<28
 		}
-
 		public struct ChangeMask: OptionSet {
 			public let rawValue: UInt32
 
@@ -459,7 +457,6 @@ extension Message.Do {
         }
     }
 }
-
 // MARK: Change Media Player
 
 public extension Message.Did {
@@ -492,5 +489,6 @@ public extension Message.Did {
 			static let name = { length in nameLength.endIndex ..< nameLength.endIndex + length }
 		}
 	}
+}
 }
 
