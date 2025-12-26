@@ -541,19 +541,18 @@ extension Message.Do {
 
         public var dataBytes: [UInt8] {
             [
-                mixEffectIndex,
-                keyIndex,
-                0x00,
-                0x01,   // CHROMA
-                0x00,   // CORRETTO
-                0x00,
-                0x00,
-                0x00
+                mixEffectIndex, // 0
+                keyIndex,       // 1
+                0x00,           // 2 reserved
+                0x01,           // 3 type = CHROMA
+                0x01,           // 4 field mask: apply `type`
+                0x00,           // 5
+                0x00,           // 6
+                0x00            // 7
             ]
         }
     }
 }
-
 
 // Attiva Upstream DVE Key 
 extension Message.Do {
@@ -580,19 +579,18 @@ extension Message.Do {
 
         public var dataBytes: [UInt8] {
             [
-                mixEffectIndex,
-                keyIndex,
-                0x00,
-                0x03,   // DVE
-                0x00,   // CORRETTO
-                0x00,
-                0x00,
-                0x00
+                mixEffectIndex, // 0
+                keyIndex,       // 1
+                0x00,           // 2 reserved
+                0x03,           // 3 type = DVE
+                0x01,           // 4 field mask: apply `type`
+                0x00,           // 5
+                0x00,           // 6
+                0x00            // 7
             ]
         }
     }
 }
-
 
 // MARK: Change Media Player
 
