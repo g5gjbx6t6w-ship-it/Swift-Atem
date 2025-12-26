@@ -534,21 +534,26 @@ extension Message.Do {
             self.keyIndex = keyIndex
         }
 
-        public var dataBytes: [UInt8] {
-            return [
-                mixEffectIndex,
-                keyIndex,
-                0x00,       // reserved
-                0x01,       // type = 1 (Chroma)
-                0x00, 0x00, 0x00, 0x00
-            ]
-        }
-
         public var debugDescription: String {
             "Set Key \(keyIndex) on ME\(mixEffectIndex) to CHROMA"
         }
+
+        public var dataBytes: [UInt8] {
+            .init(unsafeUninitializedCapacity: 8) { buffer, count in
+                buffer[0] = mixEffectIndex
+                buffer[1] = keyIndex
+                buffer[2] = 0x00        // reserved
+                buffer[3] = 0x01        // type = 1 (Chroma)
+                buffer[4] = 0x00
+                buffer[5] = 0x00
+                buffer[6] = 0x00
+                buffer[7] = 0x00
+                count = 8
+            }
+        }
     }
 }
+
  
 // Attiva Upstream DVE Key 
 extension Message.Do {
@@ -568,21 +573,26 @@ extension Message.Do {
             self.keyIndex = keyIndex
         }
 
-        public var dataBytes: [UInt8] {
-            return [
-                mixEffectIndex,
-                keyIndex,
-                0x00,       // reserved
-                0x03,       // type = 3 (DVE)
-                0x00, 0x00, 0x00, 0x00
-            ]
-        }
-
         public var debugDescription: String {
             "Set Key \(keyIndex) on ME\(mixEffectIndex) to DVE"
         }
+
+        public var dataBytes: [UInt8] {
+            .init(unsafeUninitializedCapacity: 8) { buffer, count in
+                buffer[0] = mixEffectIndex
+                buffer[1] = keyIndex
+                buffer[2] = 0x00        // reserved
+                buffer[3] = 0x03        // type = 3 (DVE)
+                buffer[4] = 0x00
+                buffer[5] = 0x00
+                buffer[6] = 0x00
+                buffer[7] = 0x00
+                count = 8
+            }
+        }
     }
 }
+
 
 // MARK: Change Media Player
 
