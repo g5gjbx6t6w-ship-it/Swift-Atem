@@ -524,28 +524,23 @@ extension Message.Do {
         public let mixEffectIndex: UInt8
         public let keyIndex: UInt8
 
-        // Decodifica (se mai arrivasse dall’ATEM)
         public init(with bytes: ArraySlice<UInt8>) throws {
             mixEffectIndex = bytes[relative: 0]
             keyIndex = bytes[relative: 1]
-            // bytes[2] = reserved/ignored
-            // bytes[3] = type
         }
 
-        // Costruttore per inviare il comando
         public init(mixEffectIndex: UInt8, keyIndex: UInt8) {
             self.mixEffectIndex = mixEffectIndex
             self.keyIndex = keyIndex
         }
 
-        // Byte inviati all’ATEM (8 byte di parametri)
         public var dataBytes: [UInt8] {
             return [
                 mixEffectIndex,
                 keyIndex,
-                0x00,       // reserved / sempre 0 nelle catture
+                0x00,       // reserved
                 0x01,       // type = 1 (Chroma)
-                0x00, 0x00, 0x00, 0x00 // padding
+                0x00, 0x00, 0x00, 0x00
             ]
         }
 
@@ -554,7 +549,6 @@ extension Message.Do {
         }
     }
 }
-
  
 // Attiva Upstream DVE Key 
 extension Message.Do {
@@ -564,28 +558,23 @@ extension Message.Do {
         public let mixEffectIndex: UInt8
         public let keyIndex: UInt8
 
-        // Decodifica
         public init(with bytes: ArraySlice<UInt8>) throws {
             mixEffectIndex = bytes[relative: 0]
             keyIndex = bytes[relative: 1]
-            // bytes[2] = reserved/ignored
-            // bytes[3] = type
         }
 
-        // Costruttore per inviare il comando
         public init(mixEffectIndex: UInt8, keyIndex: UInt8) {
             self.mixEffectIndex = mixEffectIndex
             self.keyIndex = keyIndex
         }
 
-        // Byte inviati all’ATEM (8 byte di parametri)
         public var dataBytes: [UInt8] {
             return [
                 mixEffectIndex,
                 keyIndex,
-                0x00,       // reserved / sempre 0
+                0x00,       // reserved
                 0x03,       // type = 3 (DVE)
-                0x00, 0x00, 0x00, 0x00 // padding
+                0x00, 0x00, 0x00, 0x00
             ]
         }
 
