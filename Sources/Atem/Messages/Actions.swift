@@ -414,6 +414,50 @@ extension Message.Do {
 			public static let rotation = Self(rawValue: 1 << 4)
 		}
 	}
+	extension Message.Do {
+    public struct ChangeKeyOnAir: SerializableMessage {
+        public static let title = Message.Title(string: "CKOn")
+
+        public let mixEffectIndex: UInt8
+        public let upstreamKey: UInt8
+        public let onAir: Bool
+
+        public init(mixEffectIndex: UInt8, upstreamKey: UInt8, onAir: Bool) {
+            self.mixEffectIndex = mixEffectIndex
+            self.upstreamKey = upstreamKey
+            self.onAir = onAir
+        }
+
+        public var dataBytes: [UInt8] {
+            return [mixEffectIndex, upstreamKey, onAir ? 1 : 0]
+        }
+
+        public var debugDescription: String {
+            "Set Key \(upstreamKey) on ME\(mixEffectIndex) to \(onAir ? "ON" : "OFF")"
+        }
+    }
+}
+
+extension Message.Do {
+    public struct ChangeTransitionKey: SerializableMessage {
+        public static let title = Message.Title(string: "CTKi")
+
+        public let mixEffectIndex: UInt8
+        public let tie: Bool
+
+        public init(mixEffectIndex: UInt8, tie: Bool) {
+            self.mixEffectIndex = mixEffectIndex
+            self.tie = tie
+        }
+
+        public var dataBytes: [UInt8] {
+            return [mixEffectIndex, tie ? 1 : 0]
+        }
+
+        public var debugDescription: String {
+            "Set TIE on ME\(mixEffectIndex) to \(tie ? "ON" : "OFF")"
+        }
+    }
 }
 
 // MARK: Change Media Player
