@@ -535,21 +535,25 @@ extension Message.Do {
             self.keyIndex = keyIndex
         }
 
-        public var dataBytes: [UInt8] {
-       [
-        mixEffectIndex,
-        keyIndex,
-        0x00,
-        0x01,   // CHROMA
-        0x00,   // <--- CORRETTO
-        0x00,
-        0x00,
-        0x00
-        ]
-    }
+        public var debugDescription: String {
+            "Set Key \(keyIndex) on ME\(mixEffectIndex) to CHROMA"
+        }
 
+        public var dataBytes: [UInt8] {
+            [
+                mixEffectIndex,
+                keyIndex,
+                0x00,
+                0x01,   // CHROMA
+                0x00,   // CORRETTO
+                0x00,
+                0x00,
+                0x00
+            ]
+        }
     }
 }
+
 
 // Attiva Upstream DVE Key 
 extension Message.Do {
@@ -570,21 +574,25 @@ extension Message.Do {
             self.keyIndex = keyIndex
         }
 
-        public var dataBytes: [UInt8] {
-        [
-        mixEffectIndex,
-        keyIndex,
-        0x00,
-        0x03,   // DVE
-        0x00,   // <--- CORRETTO
-        0x00,
-        0x00,
-        0x00
-        ]
-    }
+        public var debugDescription: String {
+            "Set Key \(keyIndex) on ME\(mixEffectIndex) to DVE"
+        }
 
+        public var dataBytes: [UInt8] {
+            [
+                mixEffectIndex,
+                keyIndex,
+                0x00,
+                0x03,   // DVE
+                0x00,   // CORRETTO
+                0x00,
+                0x00,
+                0x00
+            ]
+        }
     }
 }
+
 
 // MARK: Change Media Player
 
