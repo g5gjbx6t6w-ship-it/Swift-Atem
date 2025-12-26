@@ -434,8 +434,7 @@ extension Message.Do {
             "Set Key \(upstreamKey) on ME\(mixEffectIndex) to \(onAir ? "ON" : "OFF")"
         }
     }
-}
-
+	}
 extension Message.Do {
     public struct ChangeTransitionKey: SerializableMessage {
         public static let title = Message.Title(string: "CTKi")
@@ -457,6 +456,7 @@ extension Message.Do {
         }
     }
 }
+	
 // MARK: Change Media Player
 
 public extension Message.Did {
@@ -490,5 +490,3 @@ public extension Message.Did {
 		}
 	}
 }
-}
-
