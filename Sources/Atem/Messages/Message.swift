@@ -103,7 +103,7 @@ public protocol SerializableMessage: Message.Deserializable {
 	var dataBytes: [UInt8] {get}
 	static var mask: [UInt8] { get }
 }
-
+extension SerializableMessage { public static var mask: [UInt8] { [0x00, 0x00] } }
 
 extension SerializableMessage {
     public func serialize() -> [UInt8] {
