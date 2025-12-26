@@ -466,6 +466,29 @@ extension Message.Do {
             onAir = bytes[relative: 2] == 1
         }
 
+func changeKeyTypeChroma(mixEffect: UInt8, keyIndex: UInt8) {
+    let payload: [UInt8] = [
+        0x00, 0x0c,             // length
+        0xff, 0xff,             // mask
+        0x43, 0x4b, 0x54, 0x70, // "CKTp"
+        mixEffect, keyIndex,
+        0x00, 0x01              // type = 1 (Chroma)
+    ]
+    sendAtemCommand(payload)
+}
+
+
+func changeKeyTypeDVE(mixEffect: UInt8, keyIndex: UInt8) {
+    let payload: [UInt8] = [
+        0x00, 0x0c,
+        0xff, 0xff,
+        0x43, 0x4b, 0x54, 0x70, // "CKTp"
+        mixEffect, keyIndex,
+        0x00, 0x03              // type = 3 (DVE)
+    ]
+    sendAtemCommand(payload)
+}
+
         // Costruttore che usi tu per inviare il comando
         public init(mixEffectIndex: UInt8, upstreamKey: UInt8, onAir: Bool) {
             self.mixEffectIndex = mixEffectIndex
