@@ -517,51 +517,77 @@ extension Message.Do {
 }
 
  // attiva Upstream Chroma key       
- extension Message.Do {       
-   public struct ChangeKeyTypeChroma: SerializableMessage {
-     public static let title = Message.Title(string: "CKTp")
+extension Message.Do {
+    public struct ChangeKeyTypeChroma: SerializableMessage {
+        public static let title = Message.Title(string: "CKTp")
 
-    public let mixEffectIndex: UInt8
-    public let keyIndex: UInt8
+        public let mixEffectIndex: UInt8
+        public let keyIndex: UInt8
 
-    public init(mixEffectIndex: UInt8, keyIndex: UInt8) {
-        self.mixEffectIndex = mixEffectIndex
-        self.keyIndex = keyIndex
-    }
+        // Decodifica (se mai arrivasse dall’ATEM)
+        public init(with bytes: ArraySlice<UInt8>) throws {
+            mixEffectIndex = bytes[relative: 0]
+            keyIndex = bytes[relative: 1]
+        }
 
-    public func serialize() -> [UInt8] {
-        return [
-            mixEffectIndex,
-            keyIndex,
-            0x01 // type = 1 (Chroma)
-        ]
+        // Costruttore per inviare il comando
+        public init(mixEffectIndex: UInt8, keyIndex: UInt8) {
+            self.mixEffectIndex = mixEffectIndex
+            self.keyIndex = keyIndex
+        }
+
+        // Byte inviati all’ATEM
+        public var dataBytes: [UInt8] {
+            return [
+                mixEffectIndex,
+                keyIndex,
+                0x01, // type = 1 (Chroma)
+                0x00  // padding
+            ]
+        }
+
+        public var debugDescription: String {
+            "Set Key \(keyIndex) on ME\(mixEffectIndex) to CHROMA"
+        }
     }
 }
-}
+
  
 // Attiva Upstream DVE Key 
-extension Message.Do { 
-   public struct ChangeKeyTypeDVE: SerializableMessage {
-    public static let title = Message.Title(string: "CKTp")
+extension Message.Do {
+    public struct ChangeKeyTypeDVE: SerializableMessage {
+        public static let title = Message.Title(string: "CKTp")
 
-    public let mixEffectIndex: UInt8
-    public let keyIndex: UInt8
+        public let mixEffectIndex: UInt8
+        public let keyIndex: UInt8
 
-    public init(mixEffectIndex: UInt8, keyIndex: UInt8) {
-        self.mixEffectIndex = mixEffectIndex
-        self.keyIndex = keyIndex
-    }
+        // Decodifica
+        public init(with bytes: ArraySlice<UInt8>) throws {
+            mixEffectIndex = bytes[relative: 0]
+            keyIndex = bytes[relative: 1]
+        }
 
-    public func serialize() -> [UInt8] {
-        return [
-            mixEffectIndex,
-            keyIndex,
-            0x03 // type = 3 (DVE)
-        ]
+        // Costruttore per inviare
+        public init(mixEffectIndex: UInt8, keyIndex: UInt8) {
+            self.mixEffectIndex = mixEffectIndex
+            self.keyIndex = keyIndex
+        }
+
+        // Byte inviati all’ATEM
+        public var dataBytes: [UInt8] {
+            return [
+                mixEffectIndex,
+                keyIndex,
+                0x03, // type = 3 (DVE)
+                0x00  // padding
+            ]
+        }
+
+        public var debugDescription: String {
+            "Set Key \(keyIndex) on ME\(mixEffectIndex) to DVE"
+        }
     }
 }
-}
-
 
 // MARK: Change Media Player
 
