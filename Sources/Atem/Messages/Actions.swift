@@ -520,6 +520,7 @@ extension Message.Do {
 extension Message.Do {
     public struct ChangeKeyTypeChroma: SerializableMessage {
         public static let title = Message.Title(string: "CKTp")
+        public static let mask: [UInt8] = [0x33, 0x8B]
 
         public let mixEffectIndex: UInt8
         public let keyIndex: UInt8
@@ -534,32 +535,27 @@ extension Message.Do {
             self.keyIndex = keyIndex
         }
 
-        public var debugDescription: String {
-            "Set Key \(keyIndex) on ME\(mixEffectIndex) to CHROMA"
-        }
-
         public var dataBytes: [UInt8] {
-            .init(unsafeUninitializedCapacity: 8) { buffer, count in
-                buffer[0] = mixEffectIndex
-                buffer[1] = keyIndex
-                buffer[2] = 0x00        // reserved
-                buffer[3] = 0x01        // type = CHROMA
-                buffer[4] = 0x01        // ⚠️ QUESTO È IL BYTE IMPORTANTE
-                buffer[5] = 0x00
-                buffer[6] = 0x00
-                buffer[7] = 0x00
-                count = 8
-            }
-        }
+       [
+        mixEffectIndex,
+        keyIndex,
+        0x00,
+        0x01,   // CHROMA
+        0x00,   // <--- CORRETTO
+        0x00,
+        0x00,
+        0x00
+        ]
+    }
+
     }
 }
 
-
- 
 // Attiva Upstream DVE Key 
 extension Message.Do {
     public struct ChangeKeyTypeDVE: SerializableMessage {
         public static let title = Message.Title(string: "CKTp")
+        public static let mask: [UInt8] = [0x33, 0x8B]
 
         public let mixEffectIndex: UInt8
         public let keyIndex: UInt8
@@ -574,27 +570,21 @@ extension Message.Do {
             self.keyIndex = keyIndex
         }
 
-        public var debugDescription: String {
-            "Set Key \(keyIndex) on ME\(mixEffectIndex) to DVE"
-        }
-
         public var dataBytes: [UInt8] {
-            .init(unsafeUninitializedCapacity: 8) { buffer, count in
-                buffer[0] = mixEffectIndex
-                buffer[1] = keyIndex
-                buffer[2] = 0x00        // reserved
-                buffer[3] = 0x03        // type = DVE
-                buffer[4] = 0x01        // ⚠️ QUESTO È IL BYTE IMPORTANTE
-                buffer[5] = 0x00
-                buffer[6] = 0x00
-                buffer[7] = 0x00
-                count = 8
-            }
-        }
+        [
+        mixEffectIndex,
+        keyIndex,
+        0x00,
+        0x03,   // DVE
+        0x00,   // <--- CORRETTO
+        0x00,
+        0x00,
+        0x00
+        ]
+    }
+
     }
 }
-
-
 
 // MARK: Change Media Player
 
