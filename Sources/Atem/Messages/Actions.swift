@@ -6,7 +6,6 @@
 //  Edited by Antonio on 26/12/25
 //
 
-
 import Foundation
 
 extension Message.Do {
@@ -426,14 +425,24 @@ extension Message.Do {
         public let upstreamKey: UInt8
         public let onAir: Bool
 
+        // Decodifica da bytes (se mai arrivasse dall’ATEM)
+        public init(with bytes: ArraySlice<UInt8>) throws {
+            mixEffectIndex = bytes[relative: 0]
+            upstreamKey = bytes[relative: 1]
+            onAir = bytes[relative: 2] == 1
+        }
+
+        // Costruttore che usi tu per inviare il comando
         public init(mixEffectIndex: UInt8, upstreamKey: UInt8, onAir: Bool) {
             self.mixEffectIndex = mixEffectIndex
             self.upstreamKey = upstreamKey
             self.onAir = onAir
         }
 
+        // Byte inviati all’ATEM
         public var dataBytes: [UInt8] {
-            return [mixEffectIndex, upstreamKey, onAir ? 1 : 0]
+            // 3 byte utili + 1 di padding (come molti altri messaggi)
+            return [mixEffectIndex, upstreamKey, onAir ? 1 : 0, 0]
         }
 
         public var debugDescription: String {
@@ -442,6 +451,7 @@ extension Message.Do {
     }
 }
 
+
 extension Message.Do {
     public struct ChangeTransitionKey: SerializableMessage {
         public static let title = Message.Title(string: "CTKi")
@@ -449,13 +459,22 @@ extension Message.Do {
         public let mixEffectIndex: UInt8
         public let tie: Bool
 
+        // Decodifica da bytes
+        public init(with bytes: ArraySlice<UInt8>) throws {
+            mixEffectIndex = bytes[relative: 0]
+            tie = bytes[relative: 1] == 1
+        }
+
+        // Costruttore per inviare il comando
         public init(mixEffectIndex: UInt8, tie: Bool) {
             self.mixEffectIndex = mixEffectIndex
             self.tie = tie
         }
 
+        // Byte inviati all’ATEM
         public var dataBytes: [UInt8] {
-            return [mixEffectIndex, tie ? 1 : 0]
+            // 2 byte utili + 2 di padding
+            return [mixEffectIndex, tie ? 1 : 0, 0, 0]
         }
 
         public var debugDescription: String {
