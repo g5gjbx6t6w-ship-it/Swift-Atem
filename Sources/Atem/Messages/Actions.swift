@@ -3,7 +3,11 @@
 //  Atem
 //
 //  Created by Damiaan on 26/05/18.
+//  Edited by Antonio on 26/12/25
 //
+
+
+import Foundation
 
 extension Message.Do {
 	/// Performs a cut on the atem
@@ -354,8 +358,6 @@ extension Message.Did {
 }
 
 // MARK: Key DVE
-
-import Foundation
 extension Message.Do {
 	@available(OSX 10.12, iOS 10.0, *)
 	public struct ChangeKeyDVE: SerializableMessage {
