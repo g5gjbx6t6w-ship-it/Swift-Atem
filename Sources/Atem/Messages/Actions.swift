@@ -543,8 +543,8 @@ extension Message.Do {
                 buffer[0] = mixEffectIndex
                 buffer[1] = keyIndex
                 buffer[2] = 0x00        // reserved
-                buffer[3] = 0x01        // type = 1 (Chroma)
-                buffer[4] = 0x00
+                buffer[3] = 0x01        // type = CHROMA
+                buffer[4] = 0x01        // ⚠️ QUESTO È IL BYTE IMPORTANTE
                 buffer[5] = 0x00
                 buffer[6] = 0x00
                 buffer[7] = 0x00
@@ -553,6 +553,7 @@ extension Message.Do {
         }
     }
 }
+
 
  
 // Attiva Upstream DVE Key 
@@ -582,8 +583,8 @@ extension Message.Do {
                 buffer[0] = mixEffectIndex
                 buffer[1] = keyIndex
                 buffer[2] = 0x00        // reserved
-                buffer[3] = 0x03        // type = 3 (DVE)
-                buffer[4] = 0x00
+                buffer[3] = 0x03        // type = DVE
+                buffer[4] = 0x01        // ⚠️ QUESTO È IL BYTE IMPORTANTE
                 buffer[5] = 0x00
                 buffer[6] = 0x00
                 buffer[7] = 0x00
@@ -592,6 +593,7 @@ extension Message.Do {
         }
     }
 }
+
 
 
 // MARK: Change Media Player
