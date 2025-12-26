@@ -465,29 +465,48 @@ extension Message.Do {
             upstreamKey = bytes[relative: 1]
             onAir = bytes[relative: 2] == 1
         }
+// attiva Upstream Chroma key
+   public struct ChangeKeyTypeChroma: SerializableMessage {
+     public static let title = Message.Title(string: "CKTp")
 
-func changeKeyTypeChroma(mixEffect: UInt8, keyIndex: UInt8) {
-    let payload: [UInt8] = [
-        0x00, 0x0c,             // length
-        0xff, 0xff,             // mask
-        0x43, 0x4b, 0x54, 0x70, // "CKTp"
-        mixEffect, keyIndex,
-        0x00, 0x01              // type = 1 (Chroma)
-    ]
-    sendAtemCommand(payload)
+    public let mixEffectIndex: UInt8
+    public let keyIndex: UInt8
+
+    public init(mixEffectIndex: UInt8, keyIndex: UInt8) {
+        self.mixEffectIndex = mixEffectIndex
+        self.keyIndex = keyIndex
+    }
+
+    public func serialize() -> [UInt8] {
+        return [
+            mixEffectIndex,
+            keyIndex,
+            0x01 // type = 1 (Chroma)
+        ]
+    }
 }
 
+// Attiva Upstream DVE Key 
+   public struct ChangeKeyTypeDVE: SerializableMessage {
+    public static let title = Message.Title(string: "CKTp")
 
-func changeKeyTypeDVE(mixEffect: UInt8, keyIndex: UInt8) {
-    let payload: [UInt8] = [
-        0x00, 0x0c,
-        0xff, 0xff,
-        0x43, 0x4b, 0x54, 0x70, // "CKTp"
-        mixEffect, keyIndex,
-        0x00, 0x03              // type = 3 (DVE)
-    ]
-    sendAtemCommand(payload)
+    public let mixEffectIndex: UInt8
+    public let keyIndex: UInt8
+
+    public init(mixEffectIndex: UInt8, keyIndex: UInt8) {
+        self.mixEffectIndex = mixEffectIndex
+        self.keyIndex = keyIndex
+    }
+
+    public func serialize() -> [UInt8] {
+        return [
+            mixEffectIndex,
+            keyIndex,
+            0x03 // type = 3 (DVE)
+        ]
+    }
 }
+
 
         // Costruttore che usi tu per inviare il comando
         public init(mixEffectIndex: UInt8, upstreamKey: UInt8, onAir: Bool) {
