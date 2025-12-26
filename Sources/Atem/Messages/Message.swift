@@ -106,8 +106,16 @@ public protocol SerializableMessage: Message.Deserializable {
 
 
 extension SerializableMessage {
-	public static var mask: [UInt8] { [0x00, 0x00] }
+    public func serialize() -> [UInt8] {
+        Self.serialize(message: self)
+    }
+
+    public static func serialize(message: Self) -> [UInt8] {
+        let data = message.dataBytes
+        return UInt16(data.count + 8).bytes + Self.mask + Self.prefix() + data
+    }
 }
+
 
 //public enum Group {
 //	/// Sub group A
