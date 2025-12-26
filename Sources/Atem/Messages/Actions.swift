@@ -418,40 +418,6 @@ extension Message.Do {
 }
 
 extension Message.Do {
-    public struct ChangeKeyType: SerializableMessage {
-        public static let title = Message.Title(string: "CKTp")
-
-        public let mixEffectIndex: UInt8
-        public let upstreamKey: UInt8
-        public let keyType: UInt8   // 0=Luma, 1=Chroma, 2=Pattern, 3=DVE
-
-        // Decodifica (richiesta dal protocollo)
-        public init(with bytes: ArraySlice<UInt8>) throws {
-            mixEffectIndex = bytes[relative: 0]
-            upstreamKey = bytes[relative: 1]
-            keyType = bytes[relative: 2]
-        }
-
-        // Costruttore che userai tu
-        public init(mixEffectIndex: UInt8, upstreamKey: UInt8, keyType: UInt8) {
-            self.mixEffectIndex = mixEffectIndex
-            self.upstreamKey = upstreamKey
-            self.keyType = keyType
-        }
-
-        public var dataBytes: [UInt8] {
-            // 3 byte utili + 1 padding (come gli altri comandi)
-            return [mixEffectIndex, upstreamKey, keyType, 0]
-        }
-
-        public var debugDescription: String {
-            "Set Key \(upstreamKey) type to \(keyType)"
-        }
-    }
-}
-
-
-extension Message.Do {
     public struct ChangeKeyOnAir: SerializableMessage {
         public static let title = Message.Title(string: "CKOn")
 
