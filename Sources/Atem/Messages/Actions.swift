@@ -483,9 +483,10 @@ extension Message.Do {
 }
 
  // attiva Upstream Chroma key       
+// MARK: - Upstream Chroma Key (CKCk)
 extension Message.Do {
-    public struct ChangeKeyTypeChroma: SerializableMessage {
-        public static let title = Message.Title(string: "CKTp")
+    public struct ChangeKeyChroma: SerializableMessage {
+        public static let title = Message.Title(string: "CKCk")
         public static let mask: [UInt8] = [0x33, 0x8B]
 
         public let mixEffectIndex: UInt8
@@ -509,21 +510,20 @@ extension Message.Do {
             [
                 mixEffectIndex, // 0
                 keyIndex,       // 1
-                0x00,           // 2 reserved
-                0x01,           // 3 type = CHROMA
-                0x01,           // 4 field mask: apply `type`
-                0x00,           // 5
-                0x00,           // 6
-                0x00            // 7
+                0x00,           // reserved
+                0x00,           // reserved
+                0x00, 0x00, 0x00, 0x00
             ]
         }
     }
 }
 
+
 // Attiva Upstream DVE Key 
+// MARK: - Upstream DVE Key (CKDV)
 extension Message.Do {
-    public struct ChangeKeyTypeDVE: SerializableMessage {
-        public static let title = Message.Title(string: "CKTp")
+    public struct ChangeKeyDVEType: SerializableMessage {
+        public static let title = Message.Title(string: "CKDV")
         public static let mask: [UInt8] = [0x33, 0x8B]
 
         public let mixEffectIndex: UInt8
@@ -547,16 +547,14 @@ extension Message.Do {
             [
                 mixEffectIndex, // 0
                 keyIndex,       // 1
-                0x00,           // 2 reserved
-                0x03,           // 3 type = DVE
-                0x01,           // 4 field mask: apply `type`
-                0x00,           // 5
-                0x00,           // 6
-                0x00            // 7
+                0x00,           // reserved
+                0x00,           // reserved
+                0x00, 0x00, 0x00, 0x00
             ]
         }
     }
 }
+
 
 // MARK: Change Media Player
 
