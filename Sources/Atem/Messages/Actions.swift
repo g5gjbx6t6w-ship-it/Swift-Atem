@@ -550,6 +550,39 @@ extension Message.Do {
     }
 }
 
+// MARK: - Change Transition On Air (TrOn)
+extension Message.Do {
+    public struct ChangeTransitionOnAir: SerializableMessage {
+        public static let title = Message.Title(string: "TrOn")
+
+        public let mixEffectIndex: UInt8
+        public let onAir: Bool
+
+        public init(mixEffectIndex: UInt8, onAir: Bool) {
+            self.mixEffectIndex = mixEffectIndex
+            self.onAir = onAir
+        }
+
+        public init(with bytes: ArraySlice<UInt8>) throws {
+            mixEffectIndex = bytes[relative: 0]
+            onAir = bytes[relative: 1] != 0
+        }
+
+        public var dataBytes: [UInt8] {
+            return [
+                mixEffectIndex,
+                onAir ? 1 : 0,
+                0x00,
+                0x00
+            ]
+        }
+
+        public var debugDescription: String {
+            "Set Next Transition OnAir = \(onAir)"
+        }
+    }
+}
+
 // MARK: - Picture in Picture (DVEp)
 extension Message.Do {
     public struct SetPIPEnabled: SerializableMessage {
