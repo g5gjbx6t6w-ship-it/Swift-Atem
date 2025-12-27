@@ -549,10 +549,36 @@ extension Message.Do {
         }
     }
 }
+// MARK: - DVE Keyer (Picture in Picture) Enable/Disable
+extension Message.Do {
+    public struct SetDVEEnable: SerializableMessage {
+        public static let title = Message.Title(string: "DVES")
+
+        public let enabled: Bool
+
+        public init(enabled: Bool) {
+            self.enabled = enabled
+        }
+
+        public init(with bytes: ArraySlice<UInt8>) throws {
+            enabled = bytes[relative: 0] != 0
+        }
+
+        public var dataBytes: [UInt8] {
+            return [
+                enabled ? 1 : 0,
+                0, 0, 0
+            ]
+        }
+
+        public var debugDescription: String {
+            "Set DVE (PiP) enabled = \(enabled)"
+        }
+    }
+}
 
 
 // MARK: Change Media Player
-
 public extension Message.Did {
 	struct ChangeMediaPlayerFrameDescription: DeserializableMessage {
 		public static let title = Message.Title(string: "MPfe")
