@@ -483,7 +483,6 @@ extension Message.Do {
 }
 
  // attiva Upstream Chroma key       
-// MARK: - Upstream Chroma Key (CKCk)
 extension Message.Do {
     public struct ChangeKeyChroma: SerializableMessage {
         public static let title = Message.Title(string: "CKCk")
@@ -519,41 +518,34 @@ extension Message.Do {
 }
 
 
-// Attiva Upstream DVE Key 
-// MARK: - Upstream DVE Key (CKDV)
+// Attiva Upstream DVE Transition Key 
 extension Message.Do {
-    public struct ChangeKeyDVEType: SerializableMessage {
-        public static let title = Message.Title(string: "CKDV")
-        public static let mask: [UInt8] = [0x33, 0x8B]
+    public struct ChangeTransitionType: SerializableMessage {
+        public static let title = Message.Title(string: "CTTp")
 
         public let mixEffectIndex: UInt8
-        public let keyIndex: UInt8
+        public let transitionType: UInt8   // 0=MIX, 1=DIP, 2=WIPE, 3=DVE, 4=STING
+
+        public init(mixEffectIndex: UInt8, transitionType: UInt8) {
+            self.mixEffectIndex = mixEffectIndex
+            self.transitionType = transitionType
+        }
 
         public init(with bytes: ArraySlice<UInt8>) throws {
             mixEffectIndex = bytes[relative: 0]
-            keyIndex = bytes[relative: 1]
-        }
-
-        public init(mixEffectIndex: UInt8, keyIndex: UInt8) {
-            self.mixEffectIndex = mixEffectIndex
-            self.keyIndex = keyIndex
-        }
-
-        public var debugDescription: String {
-            "Set Key \(keyIndex) on ME\(mixEffectIndex) to DVE"
+            transitionType = bytes[relative: 1]
         }
 
         public var dataBytes: [UInt8] {
-            [
-                mixEffectIndex, // 0
-                keyIndex,       // 1
-                0x00,           // reserved
-                0x00,           // reserved
-                0x00, 0x00, 0x00, 0x00
-            ]
+            return [mixEffectIndex, transitionType, 0, 0]
+        }
+
+        public var debugDescription: String {
+            "Set transition type to \(transitionType)"
         }
     }
 }
+
 
 
 // MARK: Change Media Player
