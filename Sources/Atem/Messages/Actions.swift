@@ -120,7 +120,7 @@ extension Message.Do {
         }
 
         public var dataBytes: [UInt8] {
-            [mixEffectIndex, keyerIndex, keyType, 0]
+            [mixEffectIndex, keyerIndex, keyType, 3]
         }
 
         public var debugDescription: String {
