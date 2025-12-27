@@ -517,42 +517,10 @@ extension Message.Do {
     }
 }
 
-// MARK: - Change Transition Type (CTTp)
+// MARK: - Picture in Picture (DVEp)
 extension Message.Do {
-    public struct ChangeTransitionType: SerializableMessage {
-        public static let title = Message.Title(string: "CTTp")
-
-        public let mixEffectIndex: UInt8
-        public let transitionType: UInt8   // 0=MIX, 1=DIP, 2=WIPE, 3=DVE, 4=STING
-
-        public init(mixEffectIndex: UInt8, transitionType: UInt8) {
-            self.mixEffectIndex = mixEffectIndex
-            self.transitionType = transitionType
-        }
-
-        public init(with bytes: ArraySlice<UInt8>) throws {
-            mixEffectIndex = bytes[relative: 0]
-            transitionType = bytes[relative: 1]
-        }
-
-        public var dataBytes: [UInt8] {
-            return [
-                mixEffectIndex,   // 0
-                transitionType,   // 1
-                0x00,             // 2 padding
-                0x00              // 3 padding
-            ]
-        }
-
-        public var debugDescription: String {
-            "Set transition type to \(transitionType)"
-        }
-    }
-}
-// MARK: - DVE Keyer (Picture in Picture) Enable/Disable
-extension Message.Do {
-    public struct SetDVEEnable: SerializableMessage {
-        public static let title = Message.Title(string: "DVES")
+    public struct SetPIPEnabled: SerializableMessage {
+        public static let title = Message.Title(string: "DVEp")
 
         public let enabled: Bool
 
@@ -572,11 +540,10 @@ extension Message.Do {
         }
 
         public var debugDescription: String {
-            "Set DVE (PiP) enabled = \(enabled)"
+            "Set PiP enabled = \(enabled)"
         }
     }
 }
-
 
 // MARK: Change Media Player
 public extension Message.Did {
